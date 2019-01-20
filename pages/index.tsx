@@ -32,6 +32,7 @@ class App extends Component<{}, State> {
   };
 
   public onChangeContinents = (value: string[]) => {
+    console.log({ value });
     this.setState((prevState: State) => ({
       continents: includes(prevState.continents, value)
         ? filter(prevState.continents, item => item !== value)
