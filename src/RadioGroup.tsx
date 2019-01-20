@@ -4,22 +4,21 @@ import React, {
   useContext,
   Component,
 } from 'react';
-import includes from 'lodash.includes';
 
 const Context = createContext({});
 
-const CheckboxGroupInput = ({ value, label }) => {
+const RadioGroupOption = ({ value, label }) => {
   const RadioContext = useContext(Context);
   const { state, onChange } = RadioContext;
 
   return (
-    <div className="checkbox-group-item">
+    <div className="radio-group-item">
       <input
         id={value}
         name={value}
-        type="checkbox"
+        type="radio"
         onChange={onChange}
-        checked={includes(state.contextValue, value)}
+        checked={state.contextValue === value}
         value={value}
       />
       <label htmlFor={value}>{label || value}</label>
@@ -27,10 +26,10 @@ const CheckboxGroupInput = ({ value, label }) => {
   );
 };
 
-class CheckboxGroup extends Component {
-  static Input = CheckboxGroupInput;
+class RadioGroup extends Component {
+  public static Option = RadioGroupOption;
 
-  render() {
+  public render() {
     const { value, onChange, children } = this.props;
 
     return (
@@ -42,10 +41,10 @@ class CheckboxGroup extends Component {
           onChange: event => onChange(event.currentTarget.value),
         }}
       >
-        <fieldset className="checkbox-group">{children}</fieldset>
+        <fieldset className="radio-group">{children}</fieldset>
       </Context.Provider>
     );
   }
 }
 
-export default CheckboxGroup;
+export default RadioGroup;
