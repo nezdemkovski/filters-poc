@@ -1,20 +1,4 @@
-import React, {
-  createContext,
-  // useState,
-  useContext,
-  Component,
-} from 'react';
 import styled, { css } from 'styled-components';
-
-interface CheckboxGroupProps {
-  value: string[];
-  onChange: (value: string) => void;
-}
-
-interface CheckboxGroupInputProps {
-  value: string;
-  label: string;
-}
 
 const CheckboxGroupWrapper = styled.div`
   display: grid;
@@ -85,43 +69,8 @@ const CheckboxGroupItemLabel = styled.span`
   align-self: center;
 `;
 
-const Context = createContext({});
-
-const RadioGroupOption = ({ value, label }: CheckboxGroupInputProps) => {
-  const RadioContext = useContext(Context);
-  const { state, onChange } = RadioContext;
-
-  return (
-    <CheckboxGroupItemWrapper
-      data-value={value}
-      onClick={onChange}
-      checked={state.contextValue === value}
-    >
-      <CheckboxGroupItemLabel>{label || value}</CheckboxGroupItemLabel>
-    </CheckboxGroupItemWrapper>
-  );
+export {
+  CheckboxGroupWrapper,
+  CheckboxGroupItemWrapper,
+  CheckboxGroupItemLabel,
 };
-
-class RadioGroup extends Component<CheckboxGroupProps> {
-  public static Option = RadioGroupOption;
-
-  public render() {
-    const { value, onChange, children } = this.props;
-
-    return (
-      <Context.Provider
-        value={{
-          state: {
-            contextValue: value,
-          },
-          onChange: event =>
-            onChange(event.currentTarget.getAttribute('data-value')),
-        }}
-      >
-        <CheckboxGroupWrapper>{children}</CheckboxGroupWrapper>
-      </Context.Provider>
-    );
-  }
-}
-
-export default RadioGroup;

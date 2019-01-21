@@ -4,7 +4,6 @@ import React, { Component, Fragment } from 'react';
 
 import '../src/App.css';
 import CheckboxGroup from '../src/CheckboxGroup';
-import RadioGroup from '../src/RadioGroup';
 
 interface State {
   value: string;
@@ -14,20 +13,32 @@ interface State {
 
 class App extends Component<{}, State> {
   public state = {
-    value: 'second',
-    valueSecond: 'c',
+    value: null,
+    valueSecond: null,
     continents: ['north-america'],
   };
 
   public onChangeFirst = (value: string) => {
-    this.setState({
-      value,
+    this.setState(prevState => {
+      if (prevState.value === value) {
+        return {
+          value: null,
+        };
+      }
+
+      return {
+        value,
+      };
     });
   };
 
   public onChangeSecond = (value: string) => {
-    this.setState({
-      valueSecond: value,
+    this.setState(prevState => {
+      if (prevState.valueSecond !== value) {
+        return {
+          valueSecond: value,
+        };
+      }
     });
   };
 
@@ -45,36 +56,49 @@ class App extends Component<{}, State> {
     return (
       <Fragment>
         <h5>Value First: {this.state.value}</h5>
-        <RadioGroup onChange={this.onChangeFirst} value={this.state.value}>
-          <RadioGroup.Option label="First" value="first" />
-          <RadioGroup.Option label="Second" value="second" />
-          <RadioGroup.Option label="Third" value="third" />
-        </RadioGroup>
+        <CheckboxGroup
+          type="radio"
+          onChange={this.onChangeFirst}
+          value={this.state.value}
+        >
+          <CheckboxGroup.Option label="First" value="first" />
+          <CheckboxGroup.Option label="Second" value="second" />
+          <CheckboxGroup.Option label="Third" value="third" />
+        </CheckboxGroup>
 
         <h5>Value Second: {this.state.valueSecond}</h5>
-        <RadioGroup
+        <CheckboxGroup
+          type="radio"
           onChange={this.onChangeSecond}
           value={this.state.valueSecond}
         >
-          <RadioGroup.Option label="A" value="a" />
-          <RadioGroup.Option label="B" value="b" />
-          <RadioGroup.Option label="C" value="c" />
-        </RadioGroup>
+          <CheckboxGroup.Option label="A" value="a" />
+          <CheckboxGroup.Option label="B" value="b" />
+          <CheckboxGroup.Option label="C" value="c" />
+        </CheckboxGroup>
 
         <h5>Value Third: {this.state.continents.join()}</h5>
         <CheckboxGroup
-          onChange={this.onChangeContinents}
-          value={this.state.continents}
+          type="checkbox"
           groupName="continents"
+          value={this.state.continents}
+          elementsPerRow={4}
+          onChange={this.onChangeContinents}
         >
-          <CheckboxGroup.Input label="🌎 North America" value="north-america" />
-          <CheckboxGroup.Input label="☀️ Latin America" value="latin-america" />
-          <CheckboxGroup.Input label="🇪🇺 Europe" value="europe" />
-          <CheckboxGroup.Input label="🌍 Africa" value="africa" />
-          <CheckboxGroup.Input label="🕌 Middle East" value="middle-east" />
-          <CheckboxGroup.Input label="⛩ Asia" value="asia" />
-          <CheckboxGroup.Input label="🏄 Oceania" value="oceania" />
-          <CheckboxGroup.Input label="🖥 Online" value="online" />
+          <CheckboxGroup.Option
+            label="🌎 North America"
+            value="north-america"
+          />
+          <CheckboxGroup.Option
+            label="☀️ Latin America"
+            value="latin-america"
+          />
+          <CheckboxGroup.Option label="🇪🇺 Europe" value="europe" />
+          <CheckboxGroup.Option label="🌍 Africa" value="africa" />
+          <CheckboxGroup.Option label="🕌 Middle East" value="middle-east" />
+          <CheckboxGroup.Option label="⛩ Asia" value="asia" />
+          <CheckboxGroup.Option label="🏄 Oceania" value="oceania" />
+          <CheckboxGroup.Option label="🖥 Online" value="online" />
         </CheckboxGroup>
       </Fragment>
     );
